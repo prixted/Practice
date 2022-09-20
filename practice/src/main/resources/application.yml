@@ -1,0 +1,37 @@
+# 검은색 글자 색상변환 : Window - Preferances - YEditPreferances - Color Preferances - Scalars 를 색상 변경
+
+spring:
+  thymeleaf:
+    cache: false
+    check-template: true
+    check-template-location: true
+    encoding: UTF-8
+    mode: HTML
+    prefix: classpath:/templates/
+    suffix: .html
+    
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/world?characterEncoding=UTF-8&serverTimezone=Asia/Seoul&useSSL=false&allowMultiQueries=true&autoReconnect=true
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: mysql
+    hikari:
+      connection-test-query: SELECT 1
+      maximum-pool-size: 50
+      connection-timeout: 30000
+      max-lifetime: 1800000
+    
+
+mybatis: 
+  type-aliases-package: com.example.demo.**.mapper
+  mapper-locations: classpath:/mapper/**/**Mapper.xml
+  config-location: mybatis-config.xml
+  configuration: 
+    cache-enabled: true
+    lazy-loading-enabled: true
+    aggressive-lazy-loading: false
+    multiple-result-sets-enabled: true
+    use-column-label: false
+    default-statement-timeout: 65000
+    map-underscore-to-camel-case: true
+
