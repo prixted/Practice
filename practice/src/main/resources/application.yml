@@ -21,6 +21,16 @@ spring:
       connection-timeout: 30000
       max-lifetime: 1800000
     
+#몽고DB 설정
+  data:
+    mongodb:
+      host: 127.0.0.1
+      port: 27017
+      authentication-database: practice
+      username: prixted
+      password: 
+      database: local
+      # uri: mongodb: //546.465.445:27017/qwerqwer
 
 mybatis: 
   type-aliases-package: com.example.demo.**.mapper

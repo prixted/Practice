@@ -5,11 +5,86 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  
 <mapper namespace="com.example.demo.board.mapper.BoardMapper">
 
-	<select id="selectCity" parameterType="java.util.Map" resultType="java.util.Map">
-		SELECT	*
-		FROM	country
+	<!-- 페이징 처리를 위한 기본 header -->
+	<sql id="COMMON_PAGING_HEADER">
+		select R1.* FROM(	
+	</sql>
 	
+	<!-- 페이징 처리를 위한 기본 footer -->
+	<sql id="COMMON_PAGING_TAIL">
+		) R1
+		LIMIT #{amount} OFFSET #{startIndex}	
+	</sql>
+	
+	<insert id="insertBoard" parameterType="com.example.demo.board.vo.Board">
+		INSERT INTO board
+		(
+			title
+			, content
+			, board_type_code
+			, board_category_code
+			, create_ymdhms
+			, create_user_idx
+		)
+		VALUES
+		(
+			#{title}
+			, #{content}
+			, #{boardTypeCode}
+			, #{boardCategoryCode}
+			, DATE_FORMAT(now(), '%Y%m%d%H%i%s')
+			, #{createUserIdx}
+		)
+	</insert>
+	
+
+	<!-- board 총 갯수 조회 -->
+	<select id="selectBoardListCount" parameterType="com.example.demo.common.vo.Criteria" resultType="int">
+		SELECT	count(*)
+		FROM	board
+		WHERE	1=1
+		
+		<if test="typeCode != null and typeCode != ''">
+			AND board_category_code = #{typeCode}
+		</if>
+		
+		<if test="searchWord != null and searchWord != ''">
+			AND (title LIKE CONCAT ('%', #{searchWord}, '%')
+				OR content LIKE CONCAT ('%', #{searchWord}, '%')
+				OR user_name LIKE CONCAT ('%', #{searchWord}, '%')
+			)
+		</if>
+		
+	</select>
+	
+	
+	<!-- board row 조회 페이징처리 추가	 -->
+	<select id="selectBoardList" parameterType="com.example.demo.common.vo.Criteria" resultType="com.example.demo.board.vo.Board">
+	<include refid="COMMON_PAGING_HEADER"/>
+	
+		SELECT	A.*
+				, (SELECT detail_code_name FROM common_detail_code WHERE group_code = '141' AND detail_code = A.board_type_code) AS boardTypeCodeName
+				, (SELECT detail_code_name FROM common_detail_code WHERE group_code = '142' AND detail_code = A.board_category_code) AS boardCategoryCodeName
+				, U.user_name AS createUserName
+				, DATE_FORMAT(A.create_ymdhms, '%Y-%m-%d %H:%i:%s') AS createYmdhms
+				, DATE_FORMAT(A.update_ymdhms, '%Y-%m-%d %H:%i:%s') AS updateYmdhms
+		FROM	board A
+		INNER JOIN user U ON A.create_user_idx = U.user_idx
+		WHERE	1=1
+		
+		<if test="typeCode != null and typeCode != ''">
+			AND board_category_code = #{typeCode}
+		</if>
+		
+		<if test="searchWord != null and searchWord != ''">
+			AND (title LIKE CONCAT ('%', #{searchWord}, '%')
+				OR content LIKE CONCAT ('%', #{searchWord}, '%')
+				OR user_name LIKE CONCAT ('%', #{searchWord}, '%')
+			)
+		</if>
+		ORDER BY A.board_idx DESC
+		<include refid="COMMON_PAGING_TAIL"/>
 	</select>
 
-	
+
 </mapper>

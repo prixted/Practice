@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+  layout:decorator="fragments/defaultLayout">
+
+<!-- CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<!-- 테마 -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	
+<th:block layout:fragment="pageContentTitle">
+   	<form id='searchForm' action="/board/board-list" method='get' class="col-md-12 pb-1">
+  		<div class="input-group">
+  			<h4 class="col-sm-12">■ 게시판 보기</h4>
+	        <!-- <select name="typeCode" id="typeCode" class="form-control col-sm-2 mr-1">
+		        <option value="">게시글 종류</option>
+		        <option th:each="typeCode : ${codes142}" th:selected="${pagination.cri.typeCode} == ${typeCode.detailCode}" th:value="${typeCode.detailCode}" th:text="${typeCode.detailCodeName}"></option>
+	        </select>
+			<input type="text" id="searchWord" name="searchWord" class="form-control col-sm-2 mr-1" th:value="${pagination.cri.searchWord}" placeholder=""> -->
+			<input type='hidden' id='pageNum' name='pageNum' th:value="${pagination.cri.pageNum}" /> 
+			<input type='hidden' id='amount' name='amount' th:value="${pagination.cri.amount}" />
+			<!-- <button class="btn btn_search btn-default btn-primary" type="button"><i class="fa fa-search"></i>검색</button> -->
+		</div>
+	</form>
+	
+	
+</th:block>           
+<th:block layout:fragment="content">
+	<div class="main">
+		<div class="col-sm-12">
+			<!-- 게시글 -->
+			<div class="col-sm-12">
+				<div class="col-sm-8">
+					<table class="table table-bordered table-striped">
+						<colgroup>
+							<col style="width:10%;">
+							<col style="width:50%;">
+							<col style="width:15%;">
+							<col style="width:20%;">
+							<col style="width:5%;">
+						</colgroup>
+						<thead>
+							<tr>
+								<td class="text-center">종류</td>
+								<td class="text-center">제목</td>
+								<td class="text-center">글쓴이</td>
+								<td class="text-center">작성일</td>
+								<td class="text-center">조회수</td>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="list:${boardList}">
+								<td class="text-center" th:text="${list.boardCategoryCodeName}"></td>							
+								<td class="text-center"><a th:href="@{/board/board(boardIdx=${list.boardIdx})}" th:text="${list.title}"></a></td>							
+								<td class="text-center" th:text="${list.createUserName}"></td>							
+								<td class="text-center" th:text="${list.createYmdhms}"></td>							
+								<td class="text-center" th:text="${list.readCount}"></td>							
+							</tr>
+						</tbody>
+		
+					</table>
+			
+				</div>
+			</div>
+			<div class="col-sm-12">
+				<!-- 페이징 처리 -->
+				<div class="page-num">
+					<ul class="pagination justify-content-center">
+						<li class="page-item previous" th:if="${pagination.prev}">
+							<a class="page-link" data-page="1" th:text="처음"></a>
+						</li>
+						<li class="page-item previous" th:if="${pagination.prev}">
+							<a class="page-link" th:attr="data-page=|${pagination.prevPage}|" th:text="이전"></a>
+						</li>
+						<li  class="page-item" th:each="page: ${#numbers.sequence(pagination.startPage, pagination.endPage)}"
+							th:classappend="${pagination.cri.pageNum} == ${page}? active:null">
+							<a class="page-link" th:if="${page > 0}" th:attr="data-page=|${page}|" th:text="${page}"></a>
+						</li>
+						<li  class="page-item next" th:if="${pagination.next}">
+							<a class="page-link" th:attr="data-page=|${pagination.nextPage}|" th:text="다음"></a>
+						</li>
+						<li  class="page-item next" th:if="${pagination.next}">
+							<a class="page-link" th:attr="data-page=|${pagination.pageCnt}|" th:text="마지막"></a>
+						</li>
+					</ul>
+				</div>
+				
+				<!-- 페이징처리 form -->
+				<form id='actionForm' action="/board/board-list" method='get'>
+					<input type='hidden' id="s_searchWord" name="searchWord" th:value="${pagination.cri.searchWord}" />
+					<input type='hidden' id='s_pageNum' name='pageNum' th:value="${pagination.cri.pageNum}" > 
+					<input type='hidden' id='s_amount' name='amount' th:value="${pagination.cri.amount}" >
+					<input type='hidden' id='s_typeCode' name='typeCode' th:value="${pagination.cri.typeCode}" >
+				</form>	
+			</div>
+			
+		</div>
+	</div>
+</th:block>
+<th:block layout:fragment="ScriptsforPage">
+<style>
+	.main {margin:20px;}
+	
+</style>
+<script th:inline="javascript">
+	var amount = [[${pagination.cri.amount}]];
+	var pageNum = [[${pagination.cri.pageNum}]];
+	var searchWord = [[${pagination.cri.searchWord}]];
+	var typeCode = [[${pagination.cri.typeCode}]];
+	
+	$("#typeCode").val(typeCode).attr("selected","selected");
+	
+	
+	
+	jQuery(document).ready(function($) {
+	
+		$('li.page-item>a.page-link').on('click', function () {
+			var page = $(this).attr('data-page');
+			$("#s_typeCode").val($("#typeCode").val());
+			$("#s_searchWord").val($("#searchWord").val());
+			$("#s_pageNum").val(page);
+			$("#actionForm").submit();
+			
+		});			
+		
+	});
+</script>
+</th:block>
+</html>

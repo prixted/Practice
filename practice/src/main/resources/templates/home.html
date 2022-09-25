@@ -1,12 +1,42 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-
+<html xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+  layout:decorator="fragments/defaultLayout">
 <head>
-<meta charset="EUC-KR">
-<title>Insert title here</title>
-</head>
-<body>
-	[[${greetingMessage}]]
 
+	<!-- CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+	<!-- 테마 -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+	<!-- 자바스크립트 -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script></head>
+<body>
+<th:block layout:fragment="content">
+	<div class="main">
+		<h1>가즈아아아앙아아아!</h1>
+		<label th:text="${greetingMessage}"></label>
+		<div class="col-sm-12">
+			<table class="table table-bordered table-striped">
+				<thead>
+					<tr>
+						<td class=""><a href="/">HOME</a></td>
+						<td class=""><a href="/board/board-list">게시판</a></td>
+						<td class="">temp</td>
+						<td class="">temp</td>
+						<td class="">temp</td>
+						<td class="">temp</td>
+					</tr>
+				</thead>
+
+			</table>
+		
+		</div>
+	</div>
+</th:block>
 </body>
+<style>
+	.main {margin:20px;}
+</style>
+
+
 </html>

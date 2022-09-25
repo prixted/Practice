@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+<head>
+	<th:block th:include="fragments/commonHeader"></th:block>
+	<title>Header Test</title>
+</head>
+<body>
+    <h1>테스트</h1>
+    <!-- page content body -->
+    <th:block layout:fragment="content"></th:block>
+    <!-- footer -->
+    
+    <footer th:replace="fragments/commonFooter"></footer>
+    <!-- javascript -->
+    <th:block th:replace="fragments/commonScript"></th:block>
+    page content javascript
+    <th:block layout:fragment="pageCustomScript"></th:block> -->
+</body>
+</html>
