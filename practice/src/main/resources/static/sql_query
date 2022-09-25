@@ -1,0 +1,81 @@
+-- 쿼리문 작성을 위한 문서
+
+
+CREATE TABLE `world`.`board` (
+  `board_idx` INT NOT NULL AUTO_INCREMENT,
+  `title` VARCHAR(100) NOT NULL,
+  `content` VARCHAR(1000) NOT NULL,
+  `board_type_code` VARCHAR(8) NULL DEFAULT '11' COMMENT '게시판_종류(141)',
+  `board_category_code` VARCHAR(8) NOT NULL DEFAULT '13' COMMENT '게시글_종류(142)',
+  `read_count` INT NULL DEFAULT 0 COMMENT '조회수',
+  `recommend_count` INT NULL DEFAULT 0 COMMENT '추천수',
+  `report_count` INT NULL DEFAULT 0 COMMENT '신고수',
+  `create_ymdhms` VARCHAR(14) NULL DEFAULT NULL COMMENT '작성일시',
+  `create_user_idx` INT NULL DEFAULT 0 COMMENT '작성자',
+  `update_ymdhms` VARCHAR(14) NULL DEFAULT NULL COMMENT '수정일시',
+  PRIMARY KEY (`board_idx`),
+  INDEX `boardCode` (`board_code` ASC) INVISIBLE,
+  INDEX `categoryCode` (`category_code` ASC) VISIBLE,
+  INDEX `title` (`title` ASC) INVISIBLE,
+  INDEX `content` (`content` ASC) INVISIBLE)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+CREATE TABLE `world`.`common_group_code` (
+  `group_code` VARCHAR(10) NOT NULL COMMENT '그룹코드',
+  `group_code_name` VARCHAR(45) NOT NULL COMMENT '그룹코드명',
+  `group_code_name_eng` VARCHAR(45) NULL DEFAULT NULL COMMENT '그룹코드_영어명',
+  `reference_group_code` VARCHAR(45) NULL DEFAULT NULL COMMENT '참조그룹코드',
+  `use_yn` VARCHAR(1) NULL DEFAULT 'Y' COMMENT '사용여부',
+  PRIMARY KEY (`group_code`),
+  INDEX `referenceGroupCode` (`reference_group_code` ASC) VISIBLE)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8
+COMMENT = '공통그룹코드';
+
+
+CREATE TABLE `world`.`common_detail_code` (
+  `group_code` VARCHAR(10) NOT NULL COMMENT '공통그룹코드',
+  `detail_code` VARCHAR(10) NOT NULL COMMENT '상세그룹코드',
+  `detail_code_name` VARCHAR(45) NOT NULL COMMENT '상세그룹코드명',
+  `detail_code_name_eng` VARCHAR(45) NULL DEFAULT NULL COMMENT '상세그룹코드_영어명',
+  `detail_code_desc` VARCHAR(45) NULL DEFAULT NULL COMMENT '상세그룹코드_설명필요시',
+  `reference_group_code` VARCHAR(10) NULL DEFAULT NULL COMMENT '참조그룹코드',
+  `reference_detail_code` VARCHAR(10) NULL DEFAULT NULL COMMENT '참조그룹상세코드',
+  `use_yn` VARCHAR(1) NULL DEFAULT 'Y' COMMENT '사용여부',
+  UNIQUE INDEX `CODE` (`group_code` ASC, `detail_code` ASC),
+  CONSTRAINT `groupCode`
+    FOREIGN KEY (`group_code`)
+    REFERENCES `world`.`common_group_code` (`group_code`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8
+COMMENT = '상세그룹코드';
+
+
+CREATE TABLE `world`.`user` (
+  `user_idx` INT NOT NULL AUTO_INCREMENT,
+  `user_name` VARCHAR(15) NOT NULL,
+  `mobile_no` VARCHAR(20) NOT NULL,
+  `email` VARCHAR(45) NOT NULL,
+  `create_ymdhms` VARCHAR(14) NULL,
+  PRIMARY KEY (`user_idx`),
+  INDEX `userName` (`user_name` ASC) VISIBLE,
+  INDEX `mobileNo` (`mobile_no` ASC) VISIBLE)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+
+
+
+
+
+
+
+
+
+INSERT INTO `world`.`common_group_code` (`group_code`, `group_code_name`, `group_code_name_eng`, `use_yn`) VALUES ('141', '게시판종류', 'board_type_code', 'Y');
+INSERT INTO `world`.`common_group_code` (`group_code`, `group_code_name`, `group_code_name_eng`, `use_yn`) VALUES ('142', '게시글종류', 'board_category_code', 'Y');
