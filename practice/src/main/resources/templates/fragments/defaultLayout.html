@@ -4,6 +4,7 @@
 <head>
 	<th:block th:include="fragments/commonHeader"></th:block>
 	<title>Header Test</title>
+	<th:block th:include="fragments/commonNavbar"></th:block>
 </head>
 <body>
     <h1>테스트</h1>
@@ -14,7 +15,8 @@
     <footer th:replace="fragments/commonFooter"></footer>
     <!-- javascript -->
     <th:block th:replace="fragments/commonScript"></th:block>
-    page content javascript
-    <th:block layout:fragment="pageCustomScript"></th:block> -->
+    
+    
+    <th:block layout:fragment="pageCustomScript"></th:block>
 </body>
 </html>

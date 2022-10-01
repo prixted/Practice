@@ -25,4 +25,6 @@ public interface BoardMapper {
 
 	int insertBoard(Board board) throws Exception;
 
+	Board selectBoardFromBoardIdx(Map<String, Object> paramMap) throws Exception;
+
 }

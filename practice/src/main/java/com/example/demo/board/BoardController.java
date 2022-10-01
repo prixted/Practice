@@ -9,6 +9,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.board.mapper.BoardMapper;
 import com.example.demo.board.vo.Board;
@@ -111,6 +112,56 @@ public class BoardController {
 		
 		
 		return "board/board-list";
+	}
+	
+	
+	/**
+	 @Method : selectBoard
+	 @Desc : 게시글 1개 조회
+	 @Date : 2022. 9. 27.
+	 @Author : PrixTeD
+	 @param model
+	 @param boardIdx
+	 @return
+	 @throws Exception
+	
+	 @Change : 
+	
+	 */
+	@GetMapping("/board/board")
+	public String selectBoard(Model model, @RequestParam(required = false) String boardIdx) throws Exception {
+		
+		
+		try {
+			
+			if(util.notEmpty(boardIdx)) {
+				
+				Map<String, Object> paramMap = new HashMap<>();
+				paramMap.put("boardIdx", Long.parseLong(boardIdx));
+				
+				Board board = mBoardMapper.selectBoardFromBoardIdx(paramMap);
+				
+				if(util.notEmpty(board)) {
+					model.addAttribute("board", board);	
+					
+					// 추가로, comment, file체크까지 확인
+					
+				} else {
+					model.addAttribute("board", new Board());
+				}
+
+			} else {
+				model.addAttribute("board", new Board());
+			}
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		
+		return "board/board";
+				
 	}
 	
 	

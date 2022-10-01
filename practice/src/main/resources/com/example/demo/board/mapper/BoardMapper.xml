@@ -85,6 +85,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		ORDER BY A.board_idx DESC
 		<include refid="COMMON_PAGING_TAIL"/>
 	</select>
+	
+	<!-- board 1개 조회 -->
+	<select id="selectBoardFromBoardIdx" parameterType="java.util.Map" resultType="com.example.demo.board.vo.Board">
+		SELECT	A.*
+				, (SELECT detail_code_name FROM common_detail_code WHERE group_code = '141' AND detail_code = A.board_type_code) AS boardTypeCodeName
+				, (SELECT detail_code_name FROM common_detail_code WHERE group_code = '142' AND detail_code = A.board_category_code) AS boardCategoryCodeName
+				, U.user_name AS createUserName
+				, DATE_FORMAT(A.create_ymdhms, '%Y-%m-%d %H:%i:%s') AS createYmdhms
+				, DATE_FORMAT(A.update_ymdhms, '%Y-%m-%d %H:%i:%s') AS updateYmdhms
+		FROM	board A
+		INNER JOIN user U ON A.create_user_idx = U.user_idx
+		WHERE	A.board_idx = #{boardIdx}
+	
+	
+	
+	</select>
 
 
 </mapper>
