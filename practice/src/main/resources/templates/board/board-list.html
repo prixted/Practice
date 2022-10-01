@@ -13,7 +13,8 @@
 <th:block layout:fragment="pageContentTitle">
    	<form id='searchForm' action="/board/board-list" method='get' class="col-md-12 pb-1">
   		<div class="input-group">
-  			<h4 class="col-sm-12">■ 게시판 보기</h4>
+  			<h4 class="col-sm-12" th:href="@{/board/board-list}">■ 게시판 보기</h4>
+  			
 	        <!-- <select name="typeCode" id="typeCode" class="form-control col-sm-2 mr-1">
 		        <option value="">게시글 종류</option>
 		        <option th:each="typeCode : ${codes142}" th:selected="${pagination.cri.typeCode} == ${typeCode.detailCode}" th:value="${typeCode.detailCode}" th:text="${typeCode.detailCodeName}"></option>
@@ -24,7 +25,7 @@
 			<!-- <button class="btn btn_search btn-default btn-primary" type="button"><i class="fa fa-search"></i>검색</button> -->
 		</div>
 	</form>
-	
+	<a class="btn btn-primary" th:href="@{/board/insert-board-form}">글 쓰기</a>
 	
 </th:block>           
 <th:block layout:fragment="content">

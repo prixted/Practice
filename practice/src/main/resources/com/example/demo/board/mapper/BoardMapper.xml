@@ -99,8 +99,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE	A.board_idx = #{boardIdx}
 	
 	
-	
 	</select>
+	
+	
+	<!-- select board and after count up read_count -->
+	<update id="updateBoardReadCount" parameterType="long">
+		UPDATE	board
+		SET		read_count = read_count + 1
+		WHERE	board_idx = #{boardIdx}
+	
+	
+	</update>
+	
+	
+	
 
 
 </mapper>

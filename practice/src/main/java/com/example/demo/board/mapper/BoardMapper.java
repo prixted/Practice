@@ -27,4 +27,6 @@ public interface BoardMapper {
 
 	Board selectBoardFromBoardIdx(Map<String, Object> paramMap) throws Exception;
 
+	void updateBoardReadCount(long parseLong) throws Exception;
+
 }

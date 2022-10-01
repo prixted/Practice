@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+  layout:decorator="fragments/defaultLayout">
+
+<!-- CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<!-- 테마 -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
+
+<th:block layout:fragment="pageContentTitle">
+	
+</th:block>           
+
+<th:block layout:fragment="content">
+	<div class="main">
+		<div class="col-sm-8">
+			<table class="table">
+				<form id="insertBoardForm" action="/board/insert-board" method="POST">
+					<hidden name="boardTypeCode" value="141">
+					<tbody>
+						<tr>
+							<td id="">
+								<select id="boardCategoryCode" class="boardContent" name="boardCategoryCode">
+									<option value="000" th:text="분류">
+		                    		<option th:each="code142 : ${codes142}" th:value="${code142.detailCode}" th:text="${code142.detailCodeName}"></option>
+								</select>
+							</td>
+							<td id="" name="" class="text-right">제목 : </td>
+							<td id="" name=""><input type="text" class="boardContent" id="title" name="title"></td>
+						</tr>
+						<tr>
+							<td colspan="3">
+								<textarea id="content" class="boardContent" name="content" rows="25"></textarea>
+							</td>
+						
+						</tr>
+						<tr>
+							<td id="" name="" colspan="3"><input type="file" class="" id=file name="file"></td>
+						</tr>
+						<tr>
+							<td><a id="insertBtn" class="btn btn-primary">저장하기</a></td>
+						</tr>
+					</tbody>
+				</form>
+			</table>
+		</div>
+	</div>
+</th:block>
+
+
+<th:block layout:fragment="ScriptsforPage">
+
+	<style>
+		.main {margin:20px;}
+		.boardContent {width:100%;}
+	</style>
+	<script th:inline="javascript">
+	
+	
+	function empty(value) {
+		if(value == "" || value == null || value == undefined || ( value != null && typeof value == "object" && !Object.keys(value).length)){
+			return true;
+		} else{
+			return false;
+		}
+		
+	}
+	
+     
+      
+	jQuery(document).ready(function($) {
+		
+		$('#insertBtn').on('click', function() {
+
+			// 필수값 체크
+			if("000" == ($('#boardCategoryCode').val())) {
+				
+				alert("게시글 분류를 선택해주시기 바랍니다.");
+				return false;
+			}
+			
+			if(empty($('#title').val())) {
+				
+				alert("게시글 제목을 입력해주시기 바랍니다.");
+				return false;
+			}
+			
+			if(empty($('#content').val())) {
+				
+				alert("게시글 내용을 입력해주시기 바랍니다.");
+				return false;
+			}
+			
+			if (confirm('게시글 작성 콜?')) {
+				
+				$('#insertBoardForm').submit();
+				
+			}
+			
+			
+			
+		});
+		
+		
+		
+		
+		
+	});
+	</script>
+
+</th:block>
+</html>
