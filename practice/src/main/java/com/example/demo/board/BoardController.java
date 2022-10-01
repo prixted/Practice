@@ -9,7 +9,9 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.example.demo.board.mapper.BoardMapper;
 import com.example.demo.board.vo.Board;
@@ -76,12 +78,31 @@ public class BoardController {
 			
 			model.addAttribute("totalCount", totalCount);
 			
-			System.out.println("cri : " + cri);
-			
 			List<Board> boardList = mBoardMapper.selectBoardList(cri);
 			
 			if(util.notEmpty(boardList)) {
 				model.addAttribute("boardList", boardList);
+			} else {
+				
+//				for(int i = 0 ; i < 124 ; i++)  {
+//					Board board = new Board();
+//					board.setTitle("제목입니다. :  " + i);
+//					board.setContent("글 내용 입니다. 내용내용내용내용내용 " + i);
+//					board.setBoardTypeCode("142");
+//					
+//					if(0 == i % 3) {
+//						board.setBoardCategoryCode("11");
+//					} else if (1 == i % 3) {
+//						board.setBoardCategoryCode("13");
+//						
+//					} else {
+//						board.setBoardCategoryCode("14");
+//					}
+//					board.setCreateUserIdx(1);
+//					
+//					mBoardMapper.insertBoard(board);
+//					
+//				}
 			}
 			
 			Pagination pagination = new Pagination(totalCount, cri.getPageNum());
@@ -142,6 +163,10 @@ public class BoardController {
 				Board board = mBoardMapper.selectBoardFromBoardIdx(paramMap);
 				
 				if(util.notEmpty(board)) {
+					
+					mBoardMapper.updateBoardReadCount(Long.parseLong(boardIdx));
+					board.setReadCount(board.getReadCount() + 1);
+					
 					model.addAttribute("board", board);	
 					
 					// 추가로, comment, file체크까지 확인
@@ -162,6 +187,61 @@ public class BoardController {
 		
 		return "board/board";
 				
+	}
+	
+	/**
+	 @Method : insertBoardForm
+	 @Desc : 게시글 작성 /수정을 위한 form으로 이동 boardIdx가 있을 경우, 조회 후 데이터 반환하여 수정으로.
+	 		그런데, 등록과 수정을 한 페이지로 만들어도 상관 없는건가........ 우선 만들어 봐야겠다
+	 @Date : 2022. 10. 1.
+	 @Author : PrixTeD
+	 @param model
+	 @param boardIdx
+	 @param userIdx
+	 @return
+	 @throws Exception
+	
+	 @Change : 
+	
+	 */
+	@GetMapping("/board/insert-board-form")
+	public String insertBoardForm(Model model
+			, @RequestParam(required = false) String boardIdx
+			, @RequestParam(required = false) String userIdx
+			) throws Exception {
+		
+		try {
+			
+			Map<String, Object> paramMap = new HashMap<>();
+			paramMap.put("groupCode", "142");
+			List<CommonDetailCode> codes142 = mCommonMapper.selectCommonDetailCode(paramMap);
+			
+			if(util.notEmpty(codes142)) {
+				model.addAttribute("codes142", codes142);
+			}
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			
+		}
+	
+		
+		
+		return "board/insert-board-form";
+		
+	}
+	
+	@PostMapping("/board/insert-board")
+	public void insertBoard(Board board, MultipartHttpServletRequest multipartRequest) throws Exception {
+		try {
+			
+			System.out.println("board : " + board);
+			mBoardMapper.insertBoard(board);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	
