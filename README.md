@@ -1,5 +1,5 @@
 # practice
-연습용 토이프로젝트입니다.
+연습용 프로젝트입니다.
 
 JAVA8, SpringBoot, MySQL, MyBatis, Thymeleaf
 
