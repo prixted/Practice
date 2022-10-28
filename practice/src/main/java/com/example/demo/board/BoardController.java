@@ -10,7 +10,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.example.demo.board.mapper.BoardMapper;
@@ -65,72 +67,24 @@ public class BoardController {
 	public String selectBoard(Model model, Criteria cri) throws Exception{
 		
 		try {
-			Map<String, Object> paramMap = new HashMap<>();
 			
+//			int totalCount = mBoardMapper.selectBoardListCount(cri);
+//			List<Board> boardList = mBoardMapper.selectBoardList(cri);
 			
-			int totalCount = 0;
-
-			if(util.notEmpty(cri.getSearchWord())) {
-				cri.setSearchWord(cri.getSearchWord().trim());
-			}
-
-			totalCount = mBoardMapper.selectBoardListCount(cri);
+//			if(util.notEmpty(boardList)) {
+//				model.addAttribute("boardList", boardList);
+//			} else {
+				model.addAttribute("boardList", null);
+//			}
 			
-			model.addAttribute("totalCount", totalCount);
-			
-			List<Board> boardList = mBoardMapper.selectBoardList(cri);
-			
-			if(util.notEmpty(boardList)) {
-				model.addAttribute("boardList", boardList);
-			} else {
-				
-//				for(int i = 0 ; i < 124 ; i++)  {
-//					Board board = new Board();
-//					board.setTitle("제목입니다. :  " + i);
-//					board.setContent("글 내용 입니다. 내용내용내용내용내용 " + i);
-//					board.setBoardTypeCode("142");
-//					
-//					if(0 == i % 3) {
-//						board.setBoardCategoryCode("11");
-//					} else if (1 == i % 3) {
-//						board.setBoardCategoryCode("13");
-//						
-//					} else {
-//						board.setBoardCategoryCode("14");
-//					}
-//					board.setCreateUserIdx(1);
-//					
-//					mBoardMapper.insertBoard(board);
-//					
-//				}
-			}
-			
-			Pagination pagination = new Pagination(totalCount, cri.getPageNum());
+			Pagination pagination = new Pagination(0, cri.getPageNum());
 			pagination.setCri(cri);
 			model.addAttribute("pagination", pagination);
-			
-			
-			// 공통코드 조회
-			paramMap.put("groupCode", "141");
-			List<CommonDetailCode> codes141 = mCommonMapper.selectCommonDetailCode(paramMap);
-			
-			if(util.notEmpty(codes141)) {
-				model.addAttribute("codes141", codes141);
-			}
-			
-			paramMap.put("groupCode", "142");
-			List<CommonDetailCode> codes142 = mCommonMapper.selectCommonDetailCode(paramMap);
-			
-			if(util.notEmpty(codes142)) {
-				model.addAttribute("codes142", codes142);
-			}
-			
 			
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
 		
 		return "board/board-list";
 	}
@@ -243,6 +197,21 @@ public class BoardController {
 			e.printStackTrace();
 		}
 	}
+	
+	@ResponseBody
+	@PostMapping("/users/")
+	public Map<String, Object> test(@RequestBody Map<String, Object> obj) throws Exception{
+		
+		try {
+			System.out.println("obj : " + obj);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return obj;
+	}
+	
 	
 	
 

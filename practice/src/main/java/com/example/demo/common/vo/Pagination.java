@@ -145,8 +145,4 @@ public class Pagination {
 		/** DB 질의를 위한 startIndex 설정 **/
 		setStartIndex(curPage);
 	}
-	
-	
-	
-
 }

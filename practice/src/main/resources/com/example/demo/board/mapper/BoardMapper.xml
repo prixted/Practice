@@ -7,7 +7,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<!-- 페이징 처리를 위한 기본 header -->
 	<sql id="COMMON_PAGING_HEADER">
-		select R1.* FROM(	
+		select R1.* FROM(
 	</sql>
 	
 	<!-- 페이징 처리를 위한 기본 footer -->

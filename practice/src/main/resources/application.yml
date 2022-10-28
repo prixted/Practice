@@ -6,6 +6,7 @@ spring:
     check-template: true
     check-template-location: true
     encoding: UTF-8
+    
     mode: HTML
     prefix: classpath:/templates/
     suffix: .html
@@ -16,7 +17,6 @@ files:
     
   datasource:
     url: jdbc:mysql://127.0.0.1:3306/world?characterEncoding=UTF-8&serverTimezone=Asia/Seoul&useSSL=false&allowMultiQueries=true&autoReconnect=true
-#    url: jdbc:mysql://211.215.5.214:3306/world?characterEncoding=UTF-8&serverTimezone=Asia/Seoul&useSSL=false&allowMultiQueries=true&autoReconnect=true
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
     password: mysql
