@@ -16,7 +16,6 @@ files:
     
   datasource:
     url: jdbc:mysql://127.0.0.1:3306/world?characterEncoding=UTF-8&serverTimezone=Asia/Seoul&useSSL=false&allowMultiQueries=true&autoReconnect=true
-#    url: jdbc:mysql://211.215.5.214:3306/world?characterEncoding=UTF-8&serverTimezone=Asia/Seoul&useSSL=false&allowMultiQueries=true&autoReconnect=true
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
     password: mysql
@@ -26,16 +25,16 @@ files:
       connection-timeout: 30000
       max-lifetime: 1800000
     
-#몽고DB 설정
-  data:
-    mongodb:
-      host: 127.0.0.1
-      port: 27017
-      authentication-database: practice
-      username: prixted
-      password: 
-      database: local
-      # uri: mongodb: //546.465.445:27017/qwerqwer
+##몽고DB 설정
+#  data:
+#    mongodb:
+#      host: 127.0.0.1
+#      port: 27017
+#      authentication-database: practice
+#      username: prixted
+#      password: 
+#      database: local
+#      # uri: mongodb: //546.465.445:27017/qwerqwer
 
 mybatis: 
   type-aliases-package: com.example.demo.**.mapper

@@ -29,4 +29,6 @@ public interface BoardMapper {
 
 	void updateBoardReadCount(long parseLong) throws Exception;
 
+	String testQuery() throws Exception;
+
 }
