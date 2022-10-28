@@ -84,25 +84,6 @@ public class BoardController {
 				model.addAttribute("boardList", boardList);
 			} else {
 				
-//				for(int i = 0 ; i < 124 ; i++)  {
-//					Board board = new Board();
-//					board.setTitle("제목입니다. :  " + i);
-//					board.setContent("글 내용 입니다. 내용내용내용내용내용 " + i);
-//					board.setBoardTypeCode("142");
-//					
-//					if(0 == i % 3) {
-//						board.setBoardCategoryCode("11");
-//					} else if (1 == i % 3) {
-//						board.setBoardCategoryCode("13");
-//						
-//					} else {
-//						board.setBoardCategoryCode("14");
-//					}
-//					board.setCreateUserIdx(1);
-//					
-//					mBoardMapper.insertBoard(board);
-//					
-//				}
 			}
 			
 			Pagination pagination = new Pagination(totalCount, cri.getPageNum());
@@ -125,6 +106,10 @@ public class BoardController {
 				model.addAttribute("codes142", codes142);
 			}
 			
+			String time = mBoardMapper.testQuery();
+			
+			
+			System.out.println("현재 시간 : " + time);
 			
 			
 		} catch (Exception e) {
@@ -244,6 +229,23 @@ public class BoardController {
 		}
 	}
 	
+	@GetMapping("/users/")
+	public Map<String, Object> testApi(@RequestParam(required = false) String name) throws Exception {
+		
+		Map<String, Object> rtnMap = new HashMap<>();
+		
+		try {
+			
+			rtnMap.put("name", name);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		
+		return rtnMap;
+		
+	}
 	
 
 
