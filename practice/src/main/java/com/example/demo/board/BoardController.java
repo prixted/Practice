@@ -67,24 +67,57 @@ public class BoardController {
 	public String selectBoard(Model model, Criteria cri) throws Exception{
 		
 		try {
+			Map<String, Object> paramMap = new HashMap<>();
 			
-//			int totalCount = mBoardMapper.selectBoardListCount(cri);
-//			List<Board> boardList = mBoardMapper.selectBoardList(cri);
 			
-//			if(util.notEmpty(boardList)) {
-//				model.addAttribute("boardList", boardList);
-//			} else {
-				model.addAttribute("boardList", null);
-//			}
+			int totalCount = 0;
+
+			if(util.notEmpty(cri.getSearchWord())) {
+				cri.setSearchWord(cri.getSearchWord().trim());
+			}
+
+			totalCount = mBoardMapper.selectBoardListCount(cri);
 			
-			Pagination pagination = new Pagination(0, cri.getPageNum());
+			model.addAttribute("totalCount", totalCount);
+			
+			List<Board> boardList = mBoardMapper.selectBoardList(cri);
+			
+			if(util.notEmpty(boardList)) {
+				model.addAttribute("boardList", boardList);
+			} else {
+				
+			}
+			
+			Pagination pagination = new Pagination(totalCount, cri.getPageNum());
 			pagination.setCri(cri);
 			model.addAttribute("pagination", pagination);
+			
+			
+			// 공통코드 조회
+			paramMap.put("groupCode", "141");
+			List<CommonDetailCode> codes141 = mCommonMapper.selectCommonDetailCode(paramMap);
+			
+			if(util.notEmpty(codes141)) {
+				model.addAttribute("codes141", codes141);
+			}
+			
+			paramMap.put("groupCode", "142");
+			List<CommonDetailCode> codes142 = mCommonMapper.selectCommonDetailCode(paramMap);
+			
+			if(util.notEmpty(codes142)) {
+				model.addAttribute("codes142", codes142);
+			}
+			
+			String time = mBoardMapper.testQuery();
+			
+			
+			System.out.println("현재 시간 : " + time);
 			
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
 		
 		return "board/board-list";
 	}
