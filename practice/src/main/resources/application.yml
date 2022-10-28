@@ -11,10 +11,6 @@ spring:
     prefix: classpath:/templates/
     suffix: .html
     
-files: 
-  upload:
-    directory: 'd:/uploadFiles'
-    
   datasource:
     url: jdbc:mysql://127.0.0.1:3306/world?characterEncoding=UTF-8&serverTimezone=Asia/Seoul&useSSL=false&allowMultiQueries=true&autoReconnect=true
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -25,7 +21,12 @@ files:
       maximum-pool-size: 50
       connection-timeout: 30000
       max-lifetime: 1800000
+
     
+files: 
+  upload:
+    directory: 'd:/uploadFiles'
+
 ##몽고DB 설정
 #  data:
 #    mongodb:
